@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:system="clr-namespace:System;assembly=netstandard"
@@ -10,18 +9,23 @@
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
+                        <Span FontSize="Medium"
+                              Text="{x:Static local:AppResources.AppTitle}"
+                              FontAttributes="Bold" />
+                        <Span Text="{x:Static system:Environment.NewLine}" />
+                        <Span Text="{x:Static system:Environment.NewLine}" />
                         <Span Text="{x:Static local:AppResources.AboutPageBodyText}" />
-                        <Span Text="{x:Static system:Environment.NewLine}"/>
-                        <Span Text="{x:Static system:Environment.NewLine}"/>
+                        <Span Text="{x:Static system:Environment.NewLine}" />
+                        <Span Text="{x:Static system:Environment.NewLine}" />
                         <Span Text="{x:Static local:AppResources.SourceOnGithub}"
-                              TextColor="#ff000080">
+                              TextColor="#a0002080">
                             <Span.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding TapCommand}"
+                                <TapGestureRecognizer Command="{Binding LaunchBrowserForUrlCommand}"
                                                       CommandParameter="https://github.com/adrian-sal-kennedy/Camera2DemoApp" />
                             </Span.GestureRecognizers>
                         </Span>
-                        <Span Text="{x:Static system:Environment.NewLine}"/>
-                        <Span Text="{x:Static system:Environment.NewLine}"/>
+                        <Span Text="{x:Static system:Environment.NewLine}" />
+                        <Span Text="{x:Static system:Environment.NewLine}" />
                         <Span Text="{x:Static local:AppResources.Copyright}" />
                     </FormattedString>
                 </Label.FormattedText>

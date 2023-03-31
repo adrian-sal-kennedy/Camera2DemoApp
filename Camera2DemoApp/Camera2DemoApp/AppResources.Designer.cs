@@ -74,5 +74,11 @@ namespace Camera2DemoApp {
                 return ResourceManager.GetString("AboutPageBodyText", resourceCulture);
             }
         }
+        
+        public static string AppTitle {
+            get {
+                return ResourceManager.GetString("AppTitle", resourceCulture);
+            }
+        }
     }
 }
