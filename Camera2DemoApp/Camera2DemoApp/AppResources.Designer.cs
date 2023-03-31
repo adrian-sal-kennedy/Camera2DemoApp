@@ -98,5 +98,11 @@ namespace Camera2DemoApp {
                 return ResourceManager.GetString("ZoomFactor", resourceCulture);
             }
         }
+        
+        public static string PinchToZoom {
+            get {
+                return ResourceManager.GetString("PinchToZoom", resourceCulture);
+            }
+        }
     }
 }

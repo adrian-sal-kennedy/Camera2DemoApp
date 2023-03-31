@@ -46,4 +46,7 @@ Targeting Android 12.0 (API 31)</value>
     <data name="ZoomFactor" xml:space="preserve">
         <value>Zoom factor: {0}</value>
     </data>
+    <data name="PinchToZoom" xml:space="preserve">
+        <value>[Pinch to zoom]</value>
+    </data>
 </root>

@@ -4,7 +4,6 @@ using Xamarin.Forms.Xaml;
 namespace Camera2DemoApp.Components
 {
     using System;
-    using System.Diagnostics;
     using ViewModels;
     using Xamarin.CommunityToolkit.UI.Views;
 
@@ -54,11 +53,38 @@ namespace Camera2DemoApp.Components
         private void OnPinchUpdated(object sender, PinchGestureUpdatedEventArgs e)
         {
             double zoom = e.Scale * Camera.Zoom;
+            UpdateZoom(zoom);
+        }
+
+        private void UpdateZoom(double zoom)
+        {
             zoom = Math.Min(Math.Max(zoom, 1), Camera.MaxZoom);
             Camera.Zoom = zoom;
-            string text = string.Format(AppResources.ZoomFactor, zoom);
+            string text = string.Format(AppResources.ZoomFactor, $"{zoom:0.00}");
             ZoomLabel.Text = text;
             ZoomLabelBg.Text = text;
+        }
+
+        private void FireShutter(object sender, EventArgs e)
+        {
+            Camera.Shutter();
+        }
+
+        private void OnMediaCaptured(object sender, MediaCapturedEventArgs e)
+        {
+            switch (Camera.CaptureMode)
+            {
+                default:
+                case CameraCaptureMode.Default:
+                case CameraCaptureMode.Photo:
+                    PreviewPic.Source = e.Image;
+                    PreviewPic.Rotation = e.Rotation;
+                    PreviewBox.IsVisible = true;
+                    break;
+                case CameraCaptureMode.Video:
+                    PreviewBox.IsVisible = false;
+                    break;
+            }
         }
     }
 }
