@@ -78,7 +78,7 @@ namespace Camera2DemoApp.Components
                 case CameraCaptureMode.Default:
                 case CameraCaptureMode.Photo:
                     PreviewPic.Source = e.Image;
-                    PreviewPic.Rotation = e.Rotation;
+                    PreviewBox.Rotation = e.Rotation;
                     PreviewBox.IsVisible = true;
                     break;
                 case CameraCaptureMode.Video:
