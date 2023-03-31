@@ -1,23 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:behaviours="clr-namespace:Camera2DemoApp.Behaviours"
+             xmlns:local="clr-namespace:Camera2DemoApp"
+             xmlns:vm="clr-namespace:Camera2DemoApp.ViewModels"
              x:Class="Camera2DemoApp.Components.CameraPage">
+    <ContentPage.BindingContext>
+        <vm:CameraViewModel />
+    </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Margin="20,10"
-                     HorizontalOptions="CenterAndExpand"
-                     VerticalOptions="CenterAndExpand"
-                     BackgroundColor="Red">
+        <Grid Margin="20,10"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"
+              RowDefinitions="*"
+              ColumnDefinitions="*">
             <xct:CameraView
-                x:Name="cameraView"
-                CaptureMode="Video"
-                FlashMode="On"
-                BackgroundColor="Green"
+                x:Name="Camera"
+                Grid.Row="0"
+                Grid.Column="0"
+                CameraOptions="Back"
+                CaptureMode="Photo"
+                FlashMode="Off"
+                OnAvailable="OnAvailable"
                 HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand" />
-            <!-- MediaCaptured="CameraView_MediaCaptured" -->
-            <!-- OnAvailable="CameraView_OnAvailable" -->
-        </StackLayout>
+                VerticalOptions="FillAndExpand">
+                <xct:CameraView.Behaviors>
+                    <behaviours:EventToCommandBehaviour EventName="MediaCaptured"
+                                                        Command="{Binding Path=MediaCapturedCommand}"
+                                                        CommandParameter="{Binding .}" />
+                    <!-- <behaviours:EventToCommandBehaviour EventName="OnAvailable" -->
+                    <!--                                     Command="{Binding Path=CameraAvailableCommand}" -->
+                    <!--                                     CommandParameter="{Binding .}" /> -->
+                </xct:CameraView.Behaviors>
+                <xct:CameraView.GestureRecognizers>
+                    <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                </xct:CameraView.GestureRecognizers>
+            </xct:CameraView>
+            <Grid Grid.Row="0"
+                  Grid.Column="0"
+                  Margin="5"
+                  HorizontalOptions="Center"
+                  VerticalOptions="Start">
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Text="[Pinch to zoom]"
+                       FontSize="Micro"
+                       TranslationX="0.25"
+                       TranslationY="0.25"
+                       TextColor="Black" />
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Text="[Pinch to zoom]"
+                       TranslationX="-0.25"
+                       TranslationY="-0.25"
+                       FontSize="Micro"
+                       TextColor="White" />
+            </Grid>
+            <Grid Grid.Row="0"
+                  Grid.Column="0"
+                  RowDefinitions="auto"
+                  ColumnDefinitions="*,*"
+                  Padding="10"
+                  VerticalOptions="End">
+                <Button x:Name="FrontBackToggle"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Front"
+                        BackgroundColor="#20000000"
+                        CornerRadius="20"
+                        HorizontalOptions="Start"
+                        HeightRequest="40"
+                        Clicked="OnCameraFrontBackToggle"
+                        BorderWidth="2"
+                        BorderColor="White" />
+                <Label Grid.Row="0"
+                       Grid.Column="1"
+                       x:Name="ZoomLabelBg"
+                       TranslationX="0.25"
+                       TranslationY="0.25"
+                       TextColor="Black" />
+                <Label Grid.Row="0"
+                       Grid.Column="1"
+                       x:Name="ZoomLabel"
+                       TranslationX="-0.25"
+                       TranslationY="-0.25"
+                       TextColor="White"  />
+            </Grid>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

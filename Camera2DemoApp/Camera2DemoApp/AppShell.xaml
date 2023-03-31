@@ -19,9 +19,11 @@
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
     <FlyoutItem Title="{x:Static local:AppResources.CameraPage}">
-        <ShellContent ContentTemplate="{DataTemplate c:CameraPage}" />
+        <ShellContent ContentTemplate="{DataTemplate c:CameraPage}"
+                      Route="CameraPage" />
     </FlyoutItem>
     <FlyoutItem Title="{x:Static local:AppResources.AboutPage}">
-        <ShellContent ContentTemplate="{DataTemplate c:AboutPage}" />
+        <ShellContent ContentTemplate="{DataTemplate c:AboutPage}"
+                      Route="AboutPage" />
     </FlyoutItem>
 </Shell>

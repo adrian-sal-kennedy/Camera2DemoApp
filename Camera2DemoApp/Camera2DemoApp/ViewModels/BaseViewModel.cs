@@ -10,7 +10,7 @@ namespace Camera2DemoApp.ViewModels
 
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public ICommand TapCommand => new Command<string>((url) => Task.Run(() => Launcher.OpenAsync(url)));
+        public ICommand LaunchBrowserForUrlCommand => new Command<string>((url) => Task.Run(() => Launcher.OpenAsync(url)));
 
         #region INotifiyPropertyChanged implementation
 

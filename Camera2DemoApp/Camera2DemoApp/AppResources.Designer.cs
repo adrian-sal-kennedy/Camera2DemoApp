@@ -80,5 +80,23 @@ namespace Camera2DemoApp {
                 return ResourceManager.GetString("AppTitle", resourceCulture);
             }
         }
+        
+        public static string Front {
+            get {
+                return ResourceManager.GetString("Front", resourceCulture);
+            }
+        }
+        
+        public static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        public static string ZoomFactor {
+            get {
+                return ResourceManager.GetString("ZoomFactor", resourceCulture);
+            }
+        }
     }
 }

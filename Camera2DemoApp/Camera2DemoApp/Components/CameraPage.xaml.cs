@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Camera2DemoApp.Components
 {
+    using System;
+    using System.Diagnostics;
+    using ViewModels;
     using Xamarin.CommunityToolkit.UI.Views;
 
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -18,14 +15,50 @@ namespace Camera2DemoApp.Components
         {
             InitializeComponent();
         }
-        // private void CameraView_MediaCaptured(object sender, MediaCapturedEventArgs e)
-        // {
-        //     // throw new NotImplementedException();
-        // }
-        //
-        // private void CameraView_OnAvailable(object sender, bool e)
-        // {
-        //     // throw new NotImplementedException();
-        // }
+
+        protected override async void OnAppearing()
+        {
+            if (BindingContext is not CameraViewModel vm) { return; }
+
+            // check we have camera permission, divert to about page if somehow we can't get it
+            base.OnAppearing();
+            string text = string.Format(AppResources.ZoomFactor, 1);
+            ZoomLabel.Text = text;
+            ZoomLabelBg.Text = text;
+            // Debug.WriteLine(cameraView.Zoom);
+            bool canUseCamera = await vm.CheckCameraPermission();
+            if (!canUseCamera)
+            {
+                await Shell.Current.GoToAsync("//AboutPage");
+            }
+        }
+
+        private void OnCameraFrontBackToggle(object sender, EventArgs e)
+        {
+            Camera.CameraOptions =
+                Camera.CameraOptions != CameraOptions.Front ? CameraOptions.Front : CameraOptions.Back;
+            if (sender is Button btn)
+            {
+                btn.Text = Camera.CameraOptions == CameraOptions.Front ? AppResources.Front : AppResources.Back;
+            }
+        }
+
+        private void OnAvailable(object sender, bool e)
+        {
+            if (sender is CameraView c)
+            {
+                FrontBackToggle.Text = c.CameraOptions == CameraOptions.Front ? AppResources.Front : AppResources.Back;
+            }
+        }
+
+        private void OnPinchUpdated(object sender, PinchGestureUpdatedEventArgs e)
+        {
+            double zoom = e.Scale * Camera.Zoom;
+            zoom = Math.Min(Math.Max(zoom, 1), Camera.MaxZoom);
+            Camera.Zoom = zoom;
+            string text = string.Format(AppResources.ZoomFactor, zoom);
+            ZoomLabel.Text = text;
+            ZoomLabelBg.Text = text;
+        }
     }
 }
