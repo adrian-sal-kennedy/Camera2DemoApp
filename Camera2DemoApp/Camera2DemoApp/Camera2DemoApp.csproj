@@ -10,6 +10,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
+        <PackageReference Include="Xamarin.Forms.Visual.Material" Version="5.0.0.2578" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="AppResources.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="AppResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>AppResources.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Camera2DemoApp.Components.AboutPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Simple demo app to show Android Camera2 API usage. Targeting Android 12.0 (API 31)" />
+                        <Span Text="Source on GitHub"
+                              TextColor="#ff000080">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TapCommand}"
+                                                      CommandParameter="https://github.com/adrian-sal-kennedy/Camera2DemoApp" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                        <Span Text="© Adrian Kennedy" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

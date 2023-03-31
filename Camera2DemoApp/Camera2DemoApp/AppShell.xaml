@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:c="clr-namespace:Camera2DemoApp.Components;assembly=Camera2DemoApp"
+       xmlns:local="clr-namespace:Camera2DemoApp"
+       xmlns:vm="clr-namespace:Camera2DemoApp.ViewModels"
+       Visual="Material"
+       x:Class="Camera2DemoApp.AppShell">
+    <Shell.BindingContext>
+        <vm:BaseViewModel />
+    </Shell.BindingContext>
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <ContentView x:Name="ShellHeader"
+                         Padding="8">
+                <Label FontSize="Medium" Text="Camera2 API Demo"
+                       FontAttributes="Bold" />
+            </ContentView>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+    <FlyoutItem Title="{x:Static local:AppResources.CameraPage}">
+        <ShellContent ContentTemplate="{DataTemplate c:CameraPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="{x:Static local:AppResources.AboutPage}">
+        <ShellContent ContentTemplate="{DataTemplate c:AboutPage}" />
+    </FlyoutItem>
+</Shell>
