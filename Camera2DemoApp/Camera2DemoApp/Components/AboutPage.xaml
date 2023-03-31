@@ -2,21 +2,27 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:local="clr-namespace:Camera2DemoApp"
              x:Class="Camera2DemoApp.Components.AboutPage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Margin="20,10">
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Simple demo app to show Android Camera2 API usage. Targeting Android 12.0 (API 31)" />
-                        <Span Text="Source on GitHub"
+                        <Span Text="{x:Static local:AppResources.AboutPageBodyText}" />
+                        <Span Text="{x:Static system:Environment.NewLine}"/>
+                        <Span Text="{x:Static system:Environment.NewLine}"/>
+                        <Span Text="{x:Static local:AppResources.SourceOnGithub}"
                               TextColor="#ff000080">
                             <Span.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding TapCommand}"
                                                       CommandParameter="https://github.com/adrian-sal-kennedy/Camera2DemoApp" />
                             </Span.GestureRecognizers>
                         </Span>
-                        <Span Text="© Adrian Kennedy" />
+                        <Span Text="{x:Static system:Environment.NewLine}"/>
+                        <Span Text="{x:Static system:Environment.NewLine}"/>
+                        <Span Text="{x:Static local:AppResources.Copyright}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>

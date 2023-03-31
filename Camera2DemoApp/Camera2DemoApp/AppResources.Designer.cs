@@ -56,5 +56,23 @@ namespace Camera2DemoApp {
                 return ResourceManager.GetString("CameraPage", resourceCulture);
             }
         }
+        
+        public static string Copyright {
+            get {
+                return ResourceManager.GetString("Copyright", resourceCulture);
+            }
+        }
+        
+        public static string SourceOnGithub {
+            get {
+                return ResourceManager.GetString("SourceOnGithub", resourceCulture);
+            }
+        }
+        
+        public static string AboutPageBodyText {
+            get {
+                return ResourceManager.GetString("AboutPageBodyText", resourceCulture);
+            }
+        }
     }
 }

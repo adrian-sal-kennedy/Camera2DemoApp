@@ -24,4 +24,14 @@
     <data name="CameraPage" xml:space="preserve">
         <value>Camera</value>
     </data>
+    <data name="Copyright" xml:space="preserve">
+        <value>© Adrian Kennedy</value>
+    </data>
+    <data name="SourceOnGithub" xml:space="preserve">
+        <value>Source on GitHub</value>
+    </data>
+    <data name="AboutPageBodyText" xml:space="preserve">
+        <value>Simple demo app to show Android Camera2 API usage.
+Targeting Android 12.0 (API 31)</value>
+    </data>
 </root>
