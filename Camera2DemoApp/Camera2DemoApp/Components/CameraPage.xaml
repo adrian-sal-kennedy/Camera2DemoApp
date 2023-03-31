@@ -2,12 +2,22 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="Camera2DemoApp.Components.CameraPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Hello, world!"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+        <StackLayout Margin="20,10"
+                     HorizontalOptions="CenterAndExpand"
+                     VerticalOptions="CenterAndExpand"
+                     BackgroundColor="Red">
+            <xct:CameraView
+                x:Name="cameraView"
+                CaptureMode="Video"
+                FlashMode="On"
+                BackgroundColor="Green"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
+            <!-- MediaCaptured="CameraView_MediaCaptured" -->
+            <!-- OnAvailable="CameraView_OnAvailable" -->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

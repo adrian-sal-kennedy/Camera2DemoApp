@@ -9,6 +9,8 @@ using Xamarin.Forms.Xaml;
 
 namespace Camera2DemoApp.Components
 {
+    using Xamarin.CommunityToolkit.UI.Views;
+
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CameraPage : ContentPage
     {
@@ -16,5 +18,14 @@ namespace Camera2DemoApp.Components
         {
             InitializeComponent();
         }
+        // private void CameraView_MediaCaptured(object sender, MediaCapturedEventArgs e)
+        // {
+        //     // throw new NotImplementedException();
+        // }
+        //
+        // private void CameraView_OnAvailable(object sender, bool e)
+        // {
+        //     // throw new NotImplementedException();
+        // }
     }
 }
