@@ -61,11 +61,13 @@
                 <Button x:Name="FrontBackToggle"
                         Grid.Row="0"
                         Grid.Column="0"
-                        Text="{x:Static local:AppResources.Front}"
+                        Text="{x:Static local:AppResources.FrontCam}"
                         BackgroundColor="#20000000"
-                        CornerRadius="20"
+                        CornerRadius="25"
                         HorizontalOptions="Start"
-                        HeightRequest="40"
+                        HeightRequest="50"
+                        WidthRequest="100"
+                        Padding="-10"
                         Clicked="OnCameraFrontBackToggle"
                         BorderWidth="2"
                         BorderColor="White" />
@@ -96,7 +98,7 @@
                    BorderColor="White"
                    HorizontalOptions="Start"
                    VerticalOptions="End"
-                   IsVisible="False">
+                   IsVisible="True">
                 <Image x:Name="PreviewPic"
                        Aspect="AspectFit"
                        BackgroundColor="Transparent" />
@@ -105,8 +107,10 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Clicked="FireShutter"
+                    Text=""
                     HorizontalOptions="Center"
                     VerticalOptions="End"
+                    Padding="-10"
                     TranslationY="-70"
                     WidthRequest="80"
                     HeightRequest="80"

@@ -1,7 +1,10 @@
 namespace Camera2DemoApp.DependencyService
 {
+    using System.Threading.Tasks;
+    using Xamarin.Forms;
+
     public interface ISaveService
     {
-        void SaveFile(string fileName, byte[] data); 
+        Task<bool> SaveImageFile(string fileName, ImageSource? data); 
     }
 }

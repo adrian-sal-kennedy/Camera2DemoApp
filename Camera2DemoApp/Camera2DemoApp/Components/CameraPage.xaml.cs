@@ -4,8 +4,11 @@ using Xamarin.Forms.Xaml;
 namespace Camera2DemoApp.Components
 {
     using System;
+    using System.Threading.Tasks;
+    using DependencyService;
     using ViewModels;
     using Xamarin.CommunityToolkit.UI.Views;
+    using DependencyService = Xamarin.Forms.DependencyService;
 
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CameraPage : ContentPage
@@ -38,7 +41,7 @@ namespace Camera2DemoApp.Components
                 Camera.CameraOptions != CameraOptions.Front ? CameraOptions.Front : CameraOptions.Back;
             if (sender is Button btn)
             {
-                btn.Text = Camera.CameraOptions == CameraOptions.Front ? AppResources.Front : AppResources.Back;
+                btn.Text = Camera.CameraOptions == CameraOptions.Front ? AppResources.FrontCam : AppResources.BackCam;
             }
         }
 
@@ -46,7 +49,7 @@ namespace Camera2DemoApp.Components
         {
             if (sender is CameraView c)
             {
-                FrontBackToggle.Text = c.CameraOptions == CameraOptions.Front ? AppResources.Front : AppResources.Back;
+                FrontBackToggle.Text = c.CameraOptions == CameraOptions.Front ? AppResources.FrontCam : AppResources.BackCam;
             }
         }
 
@@ -80,11 +83,25 @@ namespace Camera2DemoApp.Components
                     PreviewPic.Source = e.Image;
                     PreviewBox.Rotation = e.Rotation;
                     PreviewBox.IsVisible = true;
+                    // I should use another DependencyService to inspect the native image from each platform and allow
+                    // me to choose the file extension that way, but brevity demands I just do that inside the file save
+                    // method and sacrifice a little modularity here.
+                    Task.Run(async () =>
+                    {
+                        await DependencyService.Get<ISaveService>()
+                            .SaveImageFile($"CameraDemoPicture_{DateTimeOffset.Now:yyMMdd-HH-mm-ss}", e.Image);
+                    }).Wait();
                     break;
                 case CameraCaptureMode.Video:
                     PreviewBox.IsVisible = false;
                     break;
             }
+        }
+
+        protected override void OnBindingContextChanged()
+        {
+            PreviewBox.IsVisible = false;
+            base.OnBindingContextChanged();
         }
     }
 }
