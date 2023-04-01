@@ -4,7 +4,6 @@ using Xamarin.Forms.Xaml;
 namespace Camera2DemoApp.Components
 {
     using System;
-    using System.Threading.Tasks;
     using DependencyService;
     using ViewModels;
     using Xamarin.CommunityToolkit.UI.Views;
@@ -13,14 +12,19 @@ namespace Camera2DemoApp.Components
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CameraPage : ContentPage
     {
+        private CameraViewModel? vm;
+        private readonly ControlTemplate? previewPic;
+
         public CameraPage()
         {
             InitializeComponent();
+            previewPic = Resources["Picture"] as ControlTemplate;
+            PreviewBox.ControlTemplate = Resources["Default"] as ControlTemplate;
         }
 
         protected override async void OnAppearing()
         {
-            if (BindingContext is not CameraViewModel vm) { return; }
+            if (BindingContext is not CameraViewModel cvm) { return; }
 
             // check we have camera permission, divert to about page if somehow we can't get it
             base.OnAppearing();
@@ -28,7 +32,7 @@ namespace Camera2DemoApp.Components
             ZoomLabel.Text = text;
             ZoomLabelBg.Text = text;
             // Debug.WriteLine(cameraView.Zoom);
-            bool canUseCamera = await vm.CheckCameraPermission();
+            bool canUseCamera = await cvm.CheckCameraPermission();
             if (!canUseCamera)
             {
                 await Shell.Current.GoToAsync("//AboutPage");
@@ -49,7 +53,9 @@ namespace Camera2DemoApp.Components
         {
             if (sender is CameraView c)
             {
-                FrontBackToggle.Text = c.CameraOptions == CameraOptions.Front ? AppResources.FrontCam : AppResources.BackCam;
+                FrontBackToggle.Text = c.CameraOptions == CameraOptions.Front
+                    ? AppResources.FrontCam
+                    : AppResources.BackCam;
             }
         }
 
@@ -73,24 +79,33 @@ namespace Camera2DemoApp.Components
             Camera.Shutter();
         }
 
-        private void OnMediaCaptured(object sender, MediaCapturedEventArgs e)
+        private async void OnMediaCaptured(object sender, MediaCapturedEventArgs e)
         {
             switch (Camera.CaptureMode)
             {
                 default:
                 case CameraCaptureMode.Default:
                 case CameraCaptureMode.Photo:
-                    PreviewPic.Source = e.Image;
-                    PreviewBox.Rotation = e.Rotation;
-                    PreviewBox.IsVisible = true;
-                    // I should use another DependencyService to inspect the native image from each platform and allow
-                    // me to choose the file extension that way, but brevity demands I just do that inside the file save
-                    // method and sacrifice a little modularity here.
-                    Task.Run(async () =>
+                    if (vm is not null && e is { Image: { } img })
                     {
+                        if (!vm.HasFileSystemPermission)
+                        {
+                            if (!await vm.CheckFileSystemPermission())
+                            {
+                                return;
+                            }
+                        }
+
+                        vm.LastCapturedImage = img;
+                        vm.LastCapturedImageRotation = e.Rotation;
+                        PreviewBox.ControlTemplate = previewPic;
+                        // I should use another DependencyService to inspect the native image from each platform and allow
+                        // me to choose the file extension that way, but brevity demands I just do that inside the file save
+                        // method and sacrifice a little modularity here.
                         await DependencyService.Get<ISaveService>()
-                            .SaveImageFile($"CameraDemoPicture_{DateTimeOffset.Now:yyMMdd-HH-mm-ss}", e.Image);
-                    }).Wait();
+                                .SaveImageFile($"CameraDemoPicture_{DateTimeOffset.Now:yyMMdd-HH-mm-ss}", e.Image);
+                    }
+
                     break;
                 case CameraCaptureMode.Video:
                     PreviewBox.IsVisible = false;
@@ -100,8 +115,11 @@ namespace Camera2DemoApp.Components
 
         protected override void OnBindingContextChanged()
         {
-            PreviewBox.IsVisible = false;
             base.OnBindingContextChanged();
+            if (BindingContext is CameraViewModel cvm)
+            {
+                vm = cvm;
+            }
         }
     }
 }

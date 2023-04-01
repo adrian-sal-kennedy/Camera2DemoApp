@@ -7,6 +7,19 @@
              xmlns:vm="clr-namespace:Camera2DemoApp.ViewModels"
              BackgroundColor="Black"
              x:Class="Camera2DemoApp.Components.CameraPage">
+    <ContentPage.Resources>
+        <ControlTemplate x:Key="Default">
+            <ContentView WidthRequest="80"
+                         HeightRequest="60"
+                         BackgroundColor="Transparent" />
+        </ControlTemplate>
+        <ControlTemplate x:Key="Picture">
+            <Image x:Name="PreviewPic"
+                   Aspect="AspectFit"
+                   Source="{TemplateBinding LastCapturedImage}"
+                   BackgroundColor="Transparent" />
+        </ControlTemplate>
+    </ContentPage.Resources>
     <ContentPage.BindingContext>
         <vm:CameraViewModel />
     </ContentPage.BindingContext>
@@ -15,11 +28,12 @@
               HorizontalOptions="FillAndExpand"
               VerticalOptions="FillAndExpand"
               CompressedLayout.IsHeadless="True"
-              RowDefinitions="*"
+              RowDefinitions="*,10"
               ColumnDefinitions="*">
             <xct:CameraView
                 x:Name="Camera"
                 Grid.Row="0"
+                Grid.RowSpan="2"
                 Grid.Column="0"
                 CameraOptions="Back"
                 CaptureMode="Photo"
@@ -32,26 +46,6 @@
                     <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
                 </xct:CameraView.GestureRecognizers>
             </xct:CameraView>
-            <!-- <Grid Grid.Row="0" -->
-            <!--       Grid.Column="0" -->
-            <!--       Margin="5" -->
-            <!--       HorizontalOptions="Center" -->
-            <!--       VerticalOptions="Start"> -->
-            <!--     <Label Grid.Row="0" -->
-            <!--            Grid.Column="0" -->
-            <!--            Text="{x:Static local:AppResources.PinchToZoom}" -->
-            <!--            FontSize="Micro" -->
-            <!--            TranslationX="0.25" -->
-            <!--            TranslationY="0.25" -->
-            <!--            TextColor="Black" /> -->
-            <!--     <Label Grid.Row="0" -->
-            <!--            Grid.Column="0" -->
-            <!--            Text="{x:Static local:AppResources.PinchToZoom}" -->
-            <!--            TranslationX="-0.25" -->
-            <!--            TranslationY="-0.25" -->
-            <!--            FontSize="Micro" -->
-            <!--            TextColor="White" /> -->
-            <!-- </Grid> -->
             <Grid Grid.Row="0"
                   Grid.Column="0"
                   RowDefinitions="auto"
@@ -92,19 +86,19 @@
                    Margin="10"
                    Padding="0"
                    CornerRadius="10"
+                   WidthRequest="80"
                    HeightRequest="60"
                    HasShadow="False"
                    BackgroundColor="Transparent"
                    BorderColor="White"
                    HorizontalOptions="Start"
                    VerticalOptions="End"
-                   IsVisible="True">
-                <Image x:Name="PreviewPic"
-                       Aspect="AspectFit"
-                       BackgroundColor="Transparent" />
+                   Rotation="{Binding LastCapturedImageRotation}"
+                   IsVisible="{Binding LastCapturedImage, Converter={StaticResource NullToBoolConverter}}">
             </Frame>
             <Button x:Name="ShutterButter"
                     Grid.Row="0"
+                    Grid.RowSpan="2"
                     Grid.Column="0"
                     Clicked="FireShutter"
                     Text=""

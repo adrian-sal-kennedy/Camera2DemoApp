@@ -13,11 +13,13 @@ Dead simple Xamarin app to run a camera on Android API 21-31 using Camera2 API a
   This app handles both, and hopefully everything before and after.
 - My dev environment is very different to most Xamarin dev machines. I'm building and deploying in Linux, using JetBrains Rider, rather than the typical windows and Visual Studio setup. It works really well, but is limited to Android API 31 and no newer simply because Mono.Android SDK is not maintained as eagerly as I'd like.  
   Currently I can't build Android native code beyond C# 8.0 without running into strangenesses, Though PCL code works up to C# 10.
+- I'm currently not handling rotation. I probably should, but... you know.
+- API 28 and lower save the pic to a different folder than API 29 and above. No reason except it's just a little annoyance and I'm all about MVP at the moment.
 
 ## Notes:
 - If, as I suspect, we want to do something like scanning QR or barcodes in our app, there's a pretty nice and mercifully up-to-date nuget package for that:  
   [https://github.com/JimmyPun610/BarcodeScanner.Mobile](https://github.com/JimmyPun610/BarcodeScanner.Mobile)  
   I mention this mainly because I've used it and can vouch for it. It also works faster on my device than the system camera app when pointed at a QR.  
   It's a wrapper for Google Vision APIs so it could probably be extended to do lots of interesting things like read text off street signs.
-- I'm getting location permissions, but the user doesn't need to accept them. It's just so location can be saved with the image, really.
 - I was delighted to find that the pinch numbers we get correspond *perfectly* with the camera zoom level without any kind of transformation needed.
+- I used nuget packages for as much as I could. Some might call it laziness, but honestly I'd only write it the same or worse. There was a situation not long ago when I needed an android specific permission that was not included in Xamarin.Essentials (Detect activity? Something like that), so I had to do the whole rigmarole with turning event based APIs into async/await style methods using DependencyService and some clever setting of Task results upon received broadcasts... Anyway, today I'm just getting it done.
