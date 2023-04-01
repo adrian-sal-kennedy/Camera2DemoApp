@@ -81,15 +81,15 @@ namespace Camera2DemoApp {
             }
         }
         
-        public static string Front {
+        public static string FrontCam {
             get {
-                return ResourceManager.GetString("Front", resourceCulture);
+                return ResourceManager.GetString("FrontCam", resourceCulture);
             }
         }
         
-        public static string Back {
+        public static string BackCam {
             get {
-                return ResourceManager.GetString("Back", resourceCulture);
+                return ResourceManager.GetString("BackCam", resourceCulture);
             }
         }
         

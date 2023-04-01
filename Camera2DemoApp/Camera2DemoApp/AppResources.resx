@@ -37,11 +37,11 @@ Targeting Android 12.0 (API 31)</value>
     <data name="AppTitle" xml:space="preserve">
         <value>Camera2 API Demo</value>
     </data>
-    <data name="Front" xml:space="preserve">
-        <value>Front</value>
+    <data name="FrontCam" xml:space="preserve">
+        <value>Front Camera</value>
     </data>
-    <data name="Back" xml:space="preserve">
-        <value>Back</value>
+    <data name="BackCam" xml:space="preserve">
+        <value>Back Camera</value>
     </data>
     <data name="ZoomFactor" xml:space="preserve">
         <value>Zoom factor: {0}</value>
