@@ -13,13 +13,13 @@ namespace Camera2DemoApp.Components
     public partial class CameraPage : ContentPage
     {
         private CameraViewModel? vm;
-        private readonly ControlTemplate? previewPic;
+        // private readonly ControlTemplate? previewPic;
 
         public CameraPage()
         {
             InitializeComponent();
-            previewPic = Resources["Picture"] as ControlTemplate;
-            PreviewBox.ControlTemplate = Resources["Default"] as ControlTemplate;
+            // previewPic = Resources["Picture"] as ControlTemplate;
+            // PreviewBox.ControlTemplate = Resources["Default"] as ControlTemplate;
         }
 
         protected override async void OnAppearing()
@@ -86,7 +86,7 @@ namespace Camera2DemoApp.Components
                 default:
                 case CameraCaptureMode.Default:
                 case CameraCaptureMode.Photo:
-                    if (vm is not null && e is { Image: { } img })
+                    if (vm is not null && e is { Image: { } img, })
                     {
                         if (!vm.HasFileSystemPermission)
                         {
@@ -96,14 +96,24 @@ namespace Camera2DemoApp.Components
                             }
                         }
 
-                        vm.LastCapturedImage = img;
-                        vm.LastCapturedImageRotation = e.Rotation;
-                        PreviewBox.ControlTemplate = previewPic;
+                        await Device.InvokeOnMainThreadAsync(() =>
+                        {
+                            vm.LastCapturedImage = img;
+                            vm.LastCapturedImageRotation = e.Rotation;
+                            // Just make the text do something to refresh the view hopefully.
+                            // Honestly I'm not sure why the CameraView doesn't update when I do
+                            // regular binding, but doing this here doesn't slow us down and does
+                            // actually work.
+                            string text = string.Format(AppResources.ZoomFactor, $"{Camera.Zoom:0.00}");
+                            ZoomLabel.Text = text;
+                            ZoomLabelBg.Text = text;
+                        });
                         // I should use another DependencyService to inspect the native image from each platform and allow
                         // me to choose the file extension that way, but brevity demands I just do that inside the file save
                         // method and sacrifice a little modularity here.
+
                         await DependencyService.Get<ISaveService>()
-                                .SaveImageFile($"CameraDemoPicture_{DateTimeOffset.Now:yyMMdd-HH-mm-ss}", e.Image);
+                            .SaveImageFile($"CameraDemoPicture_{DateTimeOffset.Now:yyMMdd-HH-mm-ss}", img);
                     }
 
                     break;
