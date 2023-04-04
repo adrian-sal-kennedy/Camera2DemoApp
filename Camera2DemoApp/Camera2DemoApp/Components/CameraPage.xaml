@@ -95,6 +95,9 @@
                    VerticalOptions="End"
                    Rotation="{Binding LastCapturedImageRotation}"
                    IsVisible="{Binding LastCapturedImage, Converter={StaticResource NullToBoolConverter}}">
+                <Image Aspect="AspectFit"
+                       Source="{Binding LastCapturedImage}"
+                       BackgroundColor="Transparent" />
             </Frame>
             <Button x:Name="ShutterButter"
                     Grid.Row="0"
